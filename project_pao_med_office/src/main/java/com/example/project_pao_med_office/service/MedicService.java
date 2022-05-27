@@ -14,9 +14,7 @@ public class MedicService {
         this.medicRepository = medicRepository;
     }
 
-    public List<Medic> getMedics(){
-        return medicRepository.getMedics();
-    }
+    public List<Medic> getMedics(){return medicRepository.getMedics();}
 
     public Medic getMedicById(int id){
         return medicRepository.getMedicById(id);
@@ -25,4 +23,8 @@ public class MedicService {
     public void addMedic(Medic medic){
         medicRepository.addMedic(medic);
     }
+
+    public void updateMedic(int id, Medic medic){medicRepository.updateMedic(id, medic);}
+
+    public void deletemedic(int id){medicRepository.deleteMedic(id);}
 }

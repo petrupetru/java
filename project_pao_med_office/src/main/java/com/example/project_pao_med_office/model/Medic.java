@@ -2,6 +2,7 @@ package com.example.project_pao_med_office.model;
 
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 
@@ -19,7 +20,7 @@ public class Medic {
 
     private String mail;
 
-    private Instant hireDate;
+    private LocalDate hireDate;
 
 
     private LocalTime programStart;
@@ -71,11 +72,11 @@ public class Medic {
         this.mail = mail;
     }
 
-    public Instant getHireDate() {
+    public LocalDate getHireDate() {
         return hireDate;
     }
 
-    public void setHireDate(Instant hireDate) {
+    public void setHireDate(LocalDate hireDate) {
         this.hireDate = hireDate;
     }
 

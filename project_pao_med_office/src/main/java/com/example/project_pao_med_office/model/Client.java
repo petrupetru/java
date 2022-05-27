@@ -2,7 +2,7 @@ package com.example.project_pao_med_office.model;
 
 
 public class Client {
-
+    private static int id_counter = 100;
     private Integer id;
 
     private String name;
@@ -11,6 +11,10 @@ public class Client {
     private String mail;
 
     private String cnp;
+
+    public Client() {
+        Client.id_counter++;
+    }
 
     public Integer getId() {
         return id;
@@ -52,4 +56,11 @@ public class Client {
         this.cnp = cnp;
     }
 
+    public static int getId_counter() {
+        return id_counter;
+    }
+
+    public static void setId_counter(int id_counter) {
+        Client.id_counter = id_counter;
+    }
 }

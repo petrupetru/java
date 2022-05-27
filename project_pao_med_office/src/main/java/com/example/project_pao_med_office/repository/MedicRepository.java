@@ -5,21 +5,23 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
+
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Repository
 public class MedicRepository {
-    @Value("{db.url}")
+    @Value("${db.url}")
     private String url;
-    @Value("{db.username}")
+    @Value("${db.username}")
     private String username;
-    @Value("{db.password}")
+    @Value("${db.password}")
     private String password;
 
     public List<Medic> getMedics() {
@@ -38,7 +40,7 @@ public class MedicRepository {
                 medic.setSpecialization(res.getString("specialization"));
                 medic.setPhone(res.getString("phone"));
                 medic.setMail(res.getString("mail"));
-                medic.setHireDate(res.getObject("hire_date", Instant.class));
+                medic.setHireDate(res.getObject("hire_date", LocalDate.class));
                 medic.setProgramStart(res.getObject("program_start", LocalTime.class));
                 medic.setProgramEndl(res.getObject("program_endl", LocalTime.class));
                 medics.add(medic);
@@ -66,7 +68,7 @@ public class MedicRepository {
             medic.setSpecialization(res.getString("specialization"));
             medic.setPhone(res.getString("phone"));
             medic.setMail(res.getString("mail"));
-            medic.setHireDate(res.getObject("hire_date", Instant.class));
+            medic.setHireDate(res.getObject("hire_date", LocalDate.class));
             medic.setProgramStart(res.getObject("program_start", LocalTime.class));
             medic.setProgramEndl(res.getObject("program_endl", LocalTime.class));
 
@@ -80,7 +82,8 @@ public class MedicRepository {
     }
 
     public void addMedic(Medic medic){
-        String query = "INSERT INTO `medical_office`.`medics` (`idmedics`, `name`, `specialization`, `phone`, `mail`, `hire_date`, `program_start`, `program_endl`) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO `medical_office`.`medics` (`idmedics`, `name`, `specialization`, `phone`," +
+                        " `mail`, `hire_date`, `program_start`, `program_endl`) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection con = DriverManager.getConnection(url, username, password)) {
 
@@ -97,6 +100,39 @@ public class MedicRepository {
             statement.executeUpdate();
 
         } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateMedic(int id, Medic medic){
+        String query = "UPDATE medics SET name = ?, specialization = ?, phone = ?, mail = ?," +
+                        " hire_date = ?, program_start = ?, program_endl = ? WHERE idmedics = " + id;
+        try (Connection con = DriverManager.getConnection(url, username, password)) {
+
+            var statement = con.prepareStatement(query);
+            statement.setString(1, medic.getName());
+            statement.setString(2, medic.getSpecialization());
+            statement.setString(3, medic.getPhone());
+            statement.setString(4, medic.getMail());
+            statement.setString(5, medic.getHireDate().toString());
+            statement.setString(6, medic.getProgramStart().toString());
+            statement.setString(7, medic.getProgramEndl().toString());
+
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteMedic(int id){
+        String query = "DELETE FROM medics WHERE idmedics = " + id;
+        try(Connection con = DriverManager.getConnection(url, username, password)) {
+
+            var statement = con.prepareStatement(query);
+            statement.executeUpdate();
+
+        } catch (SQLException e){
             e.printStackTrace();
         }
     }

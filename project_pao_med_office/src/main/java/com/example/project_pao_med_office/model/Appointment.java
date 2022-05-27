@@ -6,6 +6,16 @@ import java.time.LocalTime;
 
 
 public class Appointment {
+    private static int id_counter = 100;
+
+    public static int getId_counter() {
+        return id_counter;
+    }
+
+    public Appointment() {
+        Appointment.id_counter++;
+    }
+
     private Integer id;
 
     private Integer idmedic;
